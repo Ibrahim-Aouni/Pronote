@@ -16,7 +16,7 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
-if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp'])) {
+if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['matiere'])) {
     $name = $_POST['identifiant'];
     $name=strip_tags($name);
     $name=htmlspecialchars($name);
@@ -28,6 +28,9 @@ if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp'
     $password= password_hash($_POST['mdp'], PASSWORD_DEFAULT);
     $password=strip_tags($password);
     $password=htmlspecialchars($password);
+    $matiere= $_POST['matiere'];
+    $matiere=strip_tags($matiere);
+    $matiere = htmlspecialchars($matiere);
 
     
   if (preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $email)) {
@@ -45,8 +48,8 @@ if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp'
         
     }
 
-    $requete = $bdd->prepare('INSERT INTO users_prof (nom, email, mdp) VALUES (:identifiant, :email, :mdp)');
-    $requete->execute(array('identifiant' => $name, 'email' => $email, 'mdp' => $password));
+    $requete = $bdd->prepare('INSERT INTO users_prof (nom, email, mdp, matiere) VALUES (:identifiant, :email, :mdp, :matiere)');
+    $requete->execute(array('identifiant' => $name, 'email' => $email, 'mdp' => $password, 'matiere' => $matiere));
     echo "Enregistrement inséré avec succès dans la base de données.";
     header('Location: signin.php');
 }
@@ -99,10 +102,16 @@ if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp'
                 <div class="input-group">
                      <input type="email" placeholder="Email" name="email" class="form__input" id="email" />
                      <label for="email" class="form__label">Email</label>
-                </div> <div class="input-group">
+                </div> 
+                <div class="input-group">
                     
                     <input type="password" placeholder="Mot de passe " name="mdp" class="form__input" id="subject" />
                     <label for="subject" class="form__label">Subject</label>
+                </div>
+                <div class="input-group">
+                    
+                    <input type="password" placeholder="Matiere " name="matiere" class="form__input" id="subject" />
+                    <label for="subject" class="form__label">Matière</label>
                 </div>
        
        
