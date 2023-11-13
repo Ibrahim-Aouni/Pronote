@@ -79,7 +79,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 </div> <div class="input-group">
                     
                     <input type="password" placeholder="Mot de passe " name="password" class="form__input" id="subject" />
-                    <label for="subject" class="form__label">Subject</label>
+                    <label for="subject" class="form__label">Password</label>
                 </div>
        
        

@@ -31,6 +31,7 @@ if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp'
     $matiere= $_POST['matiere'];
     $matiere=strip_tags($matiere);
     $matiere = htmlspecialchars($matiere);
+    $_SESSION['matiere'] = $matiere; 
 
     
   if (preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $email)) {
@@ -106,11 +107,11 @@ if (isset($_POST['identifiant']) && isset($_POST['email']) && isset($_POST['mdp'
                 <div class="input-group">
                     
                     <input type="password" placeholder="Mot de passe " name="mdp" class="form__input" id="subject" />
-                    <label for="subject" class="form__label">Subject</label>
+                    <label for="subject" class="form__label">PAssword</label>
                 </div>
                 <div class="input-group">
                     
-                    <input type="password" placeholder="Matiere " name="matiere" class="form__input" id="subject" />
+                    <input type="texts" placeholder="Matiere " name="matiere" class="form__input" id="matiere" />
                     <label for="subject" class="form__label">Matière</label>
                 </div>
        

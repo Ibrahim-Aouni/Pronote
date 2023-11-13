@@ -5,6 +5,12 @@ ini_set('display_errors', 1);
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+if (isset($_SESSION['name'])) {
+    $name = $_SESSION['name'];
+   
+} else {
+   echo'Vous n\'êtes pas connecté';
+}
 
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=pronote;charset=utf8', 'root', '');
@@ -31,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = 0;
                     echo 'Fichier copié avec succès.';
 
-                    // Vérification si le nom et le prénom existent déjà dans la base de données
+                    
                     $requeteVerif = $bdd->prepare('SELECT COUNT(*) AS count FROM eleve WHERE firstname = ? AND lastname = ?');
                     $requeteVerif->execute([$nouveauPrenom, $nouveauNom]);
                     $resultatVerif = $requeteVerif->fetch();
@@ -39,8 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($resultatVerif['count'] > 0) {
                         echo "Cet élève existe déjà dans la base de données. Veuillez entrer un élève différent.";
                     } elseif ($nouvelleValeur >= 0 && $nouvelleValeur <= 20) {
-                        $requete = $bdd->prepare('INSERT INTO eleve (firstname, lastname, note, nomfichier, chemin_fichier) VALUES (?, ?, ?, ?, ?)');
-                        if ($requete->execute([$nouveauNom, $nouveauPrenom, $nouvelleValeur, $informationImage['filename'], $adress])) {
+                        echo $name;
+                        $comparer = $bdd->prepare('SELECT prof_id FROM users_prof where  nom = :nom');
+                        $comparer -> execute(array('nom' => $name));
+                        $row = $comparer->fetch();
+                        $prof_id=$row['prof_id']; 
+                        echo $prof_id;
+                        $requete = $bdd->prepare('INSERT INTO eleve (eleve.firstname, eleve.lastname, eleve.note, eleve.nomfichier, eleve.chemin_fichier ,eleve.prof_id) VALUES (?, ?, ?, ?, ?,?) ');
+                        if ($requete->execute([$nouveauNom, $nouveauPrenom, $nouvelleValeur, $informationImage['filename'], $adress, $prof_id])) {
                             echo "Enregistrement en base de données réussi.";
                         } else {
                             echo "Erreur lors de l'enregistrement en base de données.";

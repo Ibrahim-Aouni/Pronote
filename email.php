@@ -1,4 +1,5 @@
 <?php
+include('./navbar.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
     $destinataire = $_POST["destinataire"];

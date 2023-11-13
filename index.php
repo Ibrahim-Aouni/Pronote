@@ -5,17 +5,23 @@ define('PAGE','index');
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('./delete.php');
-include('./modifier.php');
-include('./note.php');
+include('./outils/delete.php');
+include('./outils/modifier.php');
+include('./outils/note.php');
 include('./navbar.php');
-include('./copie.php');
+include('./outils/copie.php');
 
 
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=pronote;charset=utf8', 'root', '');
 } catch (Exception $e) {
     die('Erreur : ' . $e->getMessage());
+}
+if (isset($_SESSION['name'])) {
+    $name = $_SESSION['name'];
+   
+} else {
+   echo'Vous n\'êtes pas connecté';
 }
 
 if (isset($_POST['filter_option'])) {
@@ -94,8 +100,18 @@ echo '<th scope="col">Modifier</th>';
 echo '<th scope="col">Insérer copie</th>';
 echo '</tr>';
 echo '</thead>';
+$comparer = $bdd->prepare('SELECT prof_id FROM users_prof where  nom = :nom');
+                    $comparer -> execute(array('nom' => $name));
+                        $row = $comparer->fetch();
+                        $prof_id=$row['prof_id']; 
 
-$requete = $bdd->query('SELECT id, firstname, lastname, note, nomfichier, chemin_fichier FROM eleve ORDER BY '.$orderBy);
+$requete = $bdd->prepare('SELECT eleve.id, eleve.firstname, eleve.lastname, eleve.note, eleve.nomfichier, eleve.chemin_fichier
+FROM eleve
+JOIN users_prof ON eleve.prof_id = users_prof.prof_id
+WHERE users_prof.prof_id = :prof_id ORDER BY ' . $orderBy);
+
+$requete->execute(array('prof_id' => $prof_id));
+
 
 while ($row = $requete->fetch()) {
     echo '<tbody>';
@@ -133,12 +149,12 @@ include('./footer.php');
 
     toggleButton.addEventListener('click', function() {
         if (formulaire.style.display === 'none' || formulaire.style.display === '') {
-            formulaire.style.display = 'block';
-            toggleButton.textContent = 'Ajouter un élève-';
-        } else {
-            formulaire.style display = 'none';
-            toggleButton.textContent = 'Ajouter un élève+';
-        }
+    formulaire.style.display = 'block';
+    toggleButton.textContent = 'Ajouter un élève-';
+} else {
+    formulaire.style.display = 'none'; 
+    toggleButton.textContent = 'Ajouter un élève+';
+}
     });
 </script>
 </body>
