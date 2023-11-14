@@ -12,7 +12,12 @@ if (isset($_SESSION['matiere'])) {
 } else {
     echo 'Vous n\'êtes pas connecté';
 }
-
+if (isset($_SESSION['name'])) {
+    $name = $_SESSION['name'];
+   
+} else {
+   echo'Vous n\'êtes pas connecté';
+}
 
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=pronote;charset=utf8', 'root', '');
@@ -23,15 +28,37 @@ try {
 
 include('../navbar.php');
 
+
+$nom_classe = "terminal S";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['filter_classe'])) {
+        $filterOption = $_POST['filter_classe'];
+        if ($filterOption === "1") {
+            $class= "1ere C";
+        } elseif ($filterOption === "2") {
+            $class= "2nd B";
+        } elseif ($filterOption === "3") {
+            $class= "terminal S";
+        } else {
+            $class= "1ere B";
+        }
+       
+    }
     if ( isset($_POST['message']) && isset($_POST['titre']) && isset($_POST['date'])) {
         $message = htmlspecialchars($_POST['message']);
         $titre = htmlspecialchars($_POST['titre']);
         $date = $_POST['date'];
         
+        $comparer = $bdd->prepare('SELECT prof_id, nom FROM users_prof where  nom = :nom');
+        $comparer -> execute(array('nom' => $name));
+            $raw = $comparer->fetch();
+            $prof_id=$raw['prof_id']; 
+            $name = $raw['nom'];
 
-        $requete = $bdd->prepare('INSERT INTO devoir (dates, titres, messages) VALUES (?, ?, ?)');
-        if ($requete->execute([$date, $titre, $message])) {
+        $popo= 10;
+        $requete = $bdd->prepare('INSERT INTO devoir (dates, titres, messages, prof_id, nom_prof, nom_classe) VALUES (?, ?, ?, ?, ?,?)');
+        if ($requete->execute([$date, $titre, $message, $prof_id, $name, $class])) {
             echo "Les fichiers ont bien été enregistrés";
         } else {
             echo "Erreur lors de l'enregistrement : " . $requete->errorInfo()[2];
@@ -53,10 +80,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
+<?php 
+if (isset($_POST['destinataire'])) {
+    $destinataire = $_POST['destinataire'];
+   
+
+    
+    $comparer = $bdd->prepare('SELECT prof_id FROM users_prof WHERE nom = :nom');
+    $comparer->execute(array('nom' => $name));
+    $raw = $comparer->fetch();
+    $prof_id = $raw['prof_id']; 
+
+    
+    $requeteClasses = $bdd->prepare('SELECT nom_classe FROM classe WHERE prof_id = :prof_id');
+    $requeteClasses->execute(array('prof_id' => $prof_id));
+
+    $classes = array(); 
+    while ($row = $requeteClasses->fetch()) {
+        $nom_classe = $row['nom_classe'];
+        if (!in_array($nom_classe, $classes)) {
+            $classes[] = $nom_classe; 
+        }
+    }
+
+   
+    $requeteInsertion = $bdd->prepare('INSERT INTO devoir (dates, titres, messages, prof_id, nom_prof, nom_classe, eleve_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
+
+ 
+    for ($i = 0; $i < count($classes); $i++) {
+        echo $classes[$i]; 
+
+        if ($destinataire == $classes[$i]) {
+            $requeteEleves = $bdd->prepare('SELECT eleve_id FROM classe WHERE nom_classe = :nom_classe');
+            $requeteEleves->execute([':nom_classe' => $classes[$i]]);
+
+            $eleve_ids = []; 
+            while ($row = $requeteEleves->fetch()) {
+                $eleve_ids[] = $row['eleve_id']; 
+            }
+
+            foreach ($eleve_ids as $eleve_id) {
+                $requeteInsertion->execute([$date, $titre, $message, $prof_id, $name, $classes[$i], $eleve_id]);
+            }
+        }else{
+            
+            $requeteEleves = $bdd->prepare('SELECT eleve_id FROM users_eleve WHERE email = :email');
+            $requeteEleves->execute(['email'=>$destinataire  ]);
+            $row = $requeteEleves->fetch();
+            $eleve_id= $row['eleve_id']; 
+            $requeteInsertion->execute([$date, $titre, $message, $prof_id, $name, NULL, $eleve_id]);
+
+        }
+    }
+}
+?>
+
 <div class="container mt-5">
     <form method="post" action="">
         <div class="form-group">
             <h1 ><?php echo  $name .' ' ?> - <?php echo $matiere . '  ' ?></h1>
+        </div>
+        <div class="form-group">
+            <label for="date">Envoyer à:</label>
+        <select  class="form-select" aria-label="Disabled select example" name="filter_classe" aria-label=".form-select-lg example"   >    
+  <option selected>Envoyer à: </option>
+  
+  <option value="1">1ere C</option>
+  <option value="2" > 2nd B</option>
+  <option value="3" >Terminal S</option>
+  <input type="text" name="destinataire">
+  <?php
+  
+  
+  
+  ?>
+  </select> 
+
         </div>
         <div class="form-group">
             <label for="date">Pour le :</label>
@@ -74,25 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <div class=" d-flex container">
 
-    <?php
+<?php
+   
 
-$devoirs = $bdd->prepare('SELECT dates, titres, messages FROM devoir');
-$devoirs->execute();
-$resultats = $devoirs->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($resultats as $row) {
-    echo '
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h4>' .$name.'-'. $matiere.'</h4>
-            <h5 class="card-title">' . $row['titres'] . '</h5>
-            <h6 class="card-subtitle mb-2 text-muted">' . $row['dates'] . '</h6>
-            <p class="card-text">' . $row['messages'] . '</p>
-            <a href="" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-        </div>
-    </div>';
-}
 ?>
     
     </div>

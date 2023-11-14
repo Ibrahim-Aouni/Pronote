@@ -83,9 +83,28 @@ if (isset($_POST['filter_option'])) {
 
 </form>
 <?php 
+$comparer = $bdd->prepare('SELECT prof_id FROM users_prof where  nom = :nom');
+$comparer -> execute(array('nom' => $name));
+    $row = $comparer->fetch();
+    $prof_id=$row['prof_id']; 
 
 
+$requeteNote = $bdd->prepare('SELECT note FROM eleve JOIN users_prof ON eleve.prof_id = users_prof.prof_id
+WHERE users_prof.prof_id = :prof_id ');
+$requeteNote->execute(array('prof_id' => $prof_id));
+
+$notes = 0; 
+$lesnotes= array();
+while ($row = $requeteNote->fetch()) {
+    $note = $row['note'];
+    $lesnotes[]=$note;
+    $notes += $note; 
+}
+echo count($lesnotes);
+echo $notes;
+$moyenne= $notes / count($lesnotes);
 ?>
+
 <?php
 echo '<table class="table table-striped">';
 echo '<thead>';
@@ -134,10 +153,20 @@ while ($row = $requete->fetch()) {
         </form>
     </td>';
     echo '<td><a href="' . $row['chemin_fichier'] . '" value="' . $row['id'] . '" target="_blank"/>' . $row['nomfichier'] . '</a></td>';
+
     echo '</tr>';
     echo '</tbody>';
 }
+echo '<tbody>';
+echo '<td> Moyenne</td>'; 
+echo '<td> </td>'; 
+echo '<td></td>'; 
+echo '<td> '.$moyenne. '</td>'; 
+echo '<td> </td>'; 
+echo '<td> </td>'; 
+echo '<td> </td>'; 
 
+echo '</tbody>';
 echo '</table>';
 ?>
 <?php

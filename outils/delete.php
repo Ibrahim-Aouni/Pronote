@@ -17,7 +17,7 @@ try {
 if (isset($_POST['supprimer'])) {
     $idSuppression = $_POST['supprimer'];
 
-    $suppression = $bdd->prepare('DELETE FROM eleve WHERE id = :id');
+    $suppression = $bdd->prepare('DELETE FROM classe WHERE classe_id = :id');
     $suppression->execute(array('id' => $idSuppression));
 
     echo "Ligne supprimée avec succès.";

@@ -39,10 +39,10 @@
                     <a class="nav-link" href="cahier_de_texte.php">Cahier de texte</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Note</a>
+                    <a class="nav-link" href="note_eleve.php">Note</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Messagerie</a>
+                    <a class="nav-link" href="messagerie.php">Messagerie</a>
                 </li>
                 
             </ul>
