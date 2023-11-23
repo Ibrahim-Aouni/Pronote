@@ -1,22 +1,86 @@
-Prénom,Nom,Note
-Barbare,Ibrahim,17
-Aouni,Ibrahim,12
-Aouni,Ibrahim,12
-Aouni,Ibrahim,18
-biiz,biiz,18
-Barbare,Ibrahim,17
-biiz,biiz,18
-Aouni,Ibrahimopopo,12
-juju,OUIOUI,12
-juju,OUIOUI,12
-Barbare,Ibrahim,20
-Barbare,Ibrahim,20
-Barbare,Ibrahim,17
-Barbare,Ibrahim,17
-Aouni,Ibrahim,12
-Aouni,Ibrahim,12
-OUIOUI,juju,12
-OUIOUI,juju,12
-OUIOUI,juju,12
-Aouni,Ibrahim,12
-Ibrahim,Aouni,12
+Intitule,Note,Eleve_id
+,0.00,0
+ADDITIOn,0.00,0
+SOUSTRACTION,0.00,0
+birthday,20.00,38
+birthday,12.00,42
+birthday,17.00,40
+birthday,18.00,41
+birthday,11.00,36
+birthday,19.00,39
+"YES NO QUESTIONS L3",9.00,70
+"YES NO QUESTIONS L3",12.00,71
+birthday,10.00,37
+birthday,11.00,43
+birthday,19.00,39
+birthday,11.00,36
+birthday,18.00,41
+birthday,17.00,40
+birthday,12.00,42
+birthday,20.00,38
+soustraction,11.00,4
+soustraction,20.00,3
+soustraction,19.00,7
+soustraction,18.00,9
+soustraction,17.00,1
+soustraction,8.00,2
+soustraction,18.00,11
+"YES NO QUESTIONS L3",20.00,54
+"YES NO QUESTIONS L3",20.00,53
+"YES NO QUESTIONS L3",8.00,56
+"YES NO QUESTIONS L3",7.00,52
+"YES NO QUESTIONS L3",6.00,55
+"vocalubaly 1",20.00,11
+"vocalubaly 1",17.00,2
+"vocalubaly 1",13.00,1
+"vocalubaly 1",17.00,9
+"vocalubaly 1",19.00,7
+"vocalubaly 1",18.00,3
+"vocalubaly 1",16.00,4
+"vocabulary 2",12.00,11
+"vocabulary 2",12.00,2
+"vocabulary 2",12.00,1
+"vocabulary 2",14.00,9
+"vocabulary 2",12.00,7
+"vocabulary 2",11.00,3
+"vocabulary 2",10.00,4
+"VOCABULARY 3",16.00,11
+"VOCABULARY 3",18.00,2
+"VOCABULARY 3",11.00,1
+"VOCABULARY 3",20.00,9
+"VOCABULARY 3",16.00,7
+"VOCABULARY 3",12.00,3
+"VOCABULARY 3",10.00,4
+"VOCABULARY 4",16.00,11
+"VOCABULARY 4",17.00,2
+"VOCABULARY 4",18.00,1
+"VOCABULARY 4",19.00,9
+"VOCABULARY 4",19.00,7
+"VOCABULARY 4",12.00,3
+"VOCABULARY 4",12.00,4
+"YES NO QUESTIONS L1",13.00,4
+"YES NO QUESTIONS L1",12.00,3
+"YES NO QUESTIONS L1",14.00,7
+Michael,0.00,43
+Michael,0.00,43
+Mohammed,0.00,39
+Michael,0.00,43
+Mohammed,0.00,39
+Mohammed,0.00,39
+Michael,0.00,43
+"YES NO QUESTIONS L1",13.00,4
+Mohammed,0.00,39
+"YES NO QUESTIONS L1",12.00,3
+"YES NO QUESTIONS L1",15.00,9
+"YES NO QUESTIONS L1",14.00,7
+"YES NO QUESTIONS L1",16.00,1
+"YES NO QUESTIONS L1",17.00,2
+"YES NO QUESTIONS L1",20.00,11
+"Travel ",20.00,43
+"Travel ",10.00,37
+"Travel ",11.00,39
+"Travel ",18.00,40
+"Travel ",12.00,41
+"Travel ",12.00,36
+"Travel ",20.00,42
+"Travel ",20.00,38

@@ -1,5 +1,7 @@
 <?php
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=pronote;charset=utf8', 'root', '');
 } catch (Exception $e) {
@@ -8,6 +10,7 @@ try {
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
+    $_SESSION['email'] = $email;
     $email = strip_tags($email);
     $email = htmlspecialchars($email);
     $password = $_POST['password'];
@@ -21,6 +24,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         if ($resultat) {
            echo $password;
             if (password_verify($password,$resultat['mdp'])) {
+                $_SESSION['email'] = $email;
                 header('Location: ../index.php');
                 exit;
             } else {

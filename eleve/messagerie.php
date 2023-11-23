@@ -20,6 +20,7 @@ if (isset($_SESSION['nom'])) {
     echo 'Vous n\'êtes pas connecté';
 }
 
+echo 'Tous les mots de passe ont été hachés avec succès !';
 ?>
 <!DOCTYPE html>
 <html lang="en">
